@@ -30,7 +30,7 @@ Thumbs.db
 desktop.ini
 
 # Project specific
-*.md
+tmp/*.md
 
 # Temporary files
 *.log
@@ -41,3 +41,18 @@ node_modules/
 dist/
 dist-ssr/
 *.local
+
+# Allow documentation
+README.md
+DEPLOYMENT_GUIDE.md
+
+# Ignore internal workflow/review files
+PROJECT_WORKFLOW_OVERVIEW.md
+project_review.md
+project_review.md.resolved
+NOTEBOOK_UPGRADE_GUIDE.md
+
+*.md
+!README.md
+
+*.sql

@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import unicodedata
+import hashlib
 
 def normalize_name(name):
     """Normalize player names for matching."""
@@ -263,9 +264,8 @@ def run_injury_adjusted_simulation(roster, n_sims=1000):
     stds = {col: STD_DEVS[col] for col in STD_DEVS if col in roster.columns}
     # Create a deterministic seed based on roster composition
     roster_hash_str = "".join(sorted(roster['player_name'].astype(str).tolist()))
-    import hashlib
-    seed = int(hashlib.md5(roster_hash_str.encode('utf-8')).hexdigest()[:8], 16)
-    rng = np.random.RandomState(seed)
+    seed_val = int(hashlib.md5(roster_hash_str.encode('utf-8')).hexdigest()[:8], 16)
+    rng = np.random.default_rng(seed=seed_val)
 
     for _ in range(n_sims):
         sampled = roster.copy()

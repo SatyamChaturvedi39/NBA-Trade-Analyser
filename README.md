@@ -14,6 +14,33 @@
   <i>Stop guessing. Start analyzing. Make every trade decision backed by data.</i>
 </p>
 
+<p align="center">
+  <a href="#-how-to-use-the-website"><b>How to Use</b></a> •
+  <a href="#-how-it-works"><b>How It Works</b></a> •
+  <a href="#-features"><b>Features</b></a> •
+  <a href="#-models--intelligence-layer"><b>ML Architecture</b></a>
+</p>
+
+---
+
+## 🔗 Live Demo
+> **Live Website:** [Insert Your Vercel/Render Link Here]
+
+---
+
+## 📖 How to Use the Website
+
+Follow these steps to perform your first AI-backed trade analysis:
+
+1. **Select Teams:** Choose two NBA franchises from the dropdown menus.
+2. **Select Players:** Once the rosters load, click on players to add them to the trade block. The system handles "Outgoing" and "Incoming" logic automatically.
+3. **Analyze:** Hit the **"Analyze Trade"** button. The system will run 1,000 Monte Carlo simulations in the background.
+4. **Review the Results:**
+   - **Trade Score:** Check the 0–100 gauge to see if the trade is beneficial.
+   - **Win Delta:** See how many extra wins (or losses) the model projects for each team.
+   - **"Why this prediction?":** Click on any traded player to see the SHAP-powered plain-English explanations of their forecast.
+   - **Fit & Health:** Review the roster depth and injury risk warnings at the bottom of the analysis.
+
 ---
 
 ## What is NBA Trade Analyzer?

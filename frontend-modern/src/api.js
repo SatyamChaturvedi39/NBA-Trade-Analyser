@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Assuming Flask backend runs on port 5000 linearly
-const API_BASE_URL = 'http://127.0.0.1:5000';
+// Use environment variable for production, fallback to localhost for development
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:5000';
 
 const api = axios.create({
     baseURL: API_BASE_URL,
@@ -12,7 +12,7 @@ const api = axios.create({
 
 export const searchPlayers = async (query) => {
     try {
-        const response = await api.get(`/api/players/search?q=${encodeURIComponent(query)}`);
+        const response = await api.get(`/api/search?q=${encodeURIComponent(query)}`);
         return response.data;
     } catch (error) {
         console.error("Error searching players:", error);

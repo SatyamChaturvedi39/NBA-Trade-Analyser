@@ -13,6 +13,10 @@ print("=" * 80)
 print("NBA PLAYER PERFORMANCE PREDICTION MODEL - TEST SUITE")
 print("=" * 80)
 
+# Ensure we are in the project root
+os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+print(f"Working directory: {os.getcwd()}")
+
 # ============================================================================
 # TEST 1: File Existence Check
 # ============================================================================
@@ -52,10 +56,10 @@ try:
     print(f"  ✓ Model type: {type(model).__name__}")
     print(f"  ✓ Number of estimators: {len(model.estimators_)}")
     
-    # Load explainer
-    with open('models/shap_explainer_v2.pkl', 'rb') as f:
-        explainer = pickle.load(f)
-    print(f"  ✓ SHAP explainer loaded")
+    # Load explainer dict
+    with open('models/shap_explainers_v2.pkl', 'rb') as f:
+        explainers_dict = pickle.load(f)
+    print(f"  ✓ SHAP explainers loaded (targets: {list(explainers_dict.keys())})")
     
     # Load feature names
     with open('models/feature_names_v2.txt', 'r') as f:
@@ -201,14 +205,22 @@ else:
 # TEST 7: SHAP Explanations
 # ============================================================================
 print("\n[TEST 7] Testing SHAP explanations...")
-
 try:
-    # Get SHAP values for first sample
+    # Get SHAP values for first sample using the PPG explainer
     sample_input = sample_rows.iloc[[0]]
-    shap_values = explainer.shap_values(sample_input)
-    
-    # Create feature importance dict
-    shap_dict = {name: float(val) for name, val in zip(feature_names, shap_values[0])}
+    # Find the PPG explainer in the dict
+    ppg_target = 'target_next_ppg'
+    if ppg_target in explainers_dict:
+        target_explainer = explainers_dict[ppg_target]
+        shap_values = target_explainer.shap_values(sample_input)
+        
+        if isinstance(shap_values, list): # Handle some SHAP versions
+            shap_values = shap_values[0]
+        if shap_values.ndim > 1:
+            shap_values = shap_values[0]
+
+        # Create feature importance dict
+        shap_dict = {name: float(val) for name, val in zip(feature_names, shap_values)}
     
     # Get top 10 features
     top_features = sorted(shap_dict.items(), key=lambda x: abs(x[1]), reverse=True)[:10]

@@ -1,9 +1,8 @@
 """
 NBA Trade Analyzer - Production Flask Backend
 With industry-standard SHAP explainability (per-target TreeExplainer)
-# HOTRELOAD 4
 """
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
@@ -198,6 +197,8 @@ def _build_reason(feature, value, shap_val, target_key, current_age=None):
         'free_throw_pct': f"He makes {formatted_val} of his free throws — {'a reliable foul-line shooter' if shap_val > 0 else 'below-average free throw accuracy that reduces scoring efficiency'}.",
         # NBA experience
         'seasons_in_dataset': f"He has {formatted_val} seasons of NBA data in the model — {'a deep track record makes the projection more reliable' if shap_val > 0 else 'limited data means the model is extrapolating more, adding uncertainty'}.",
+        # Scoring Efficiency
+        'points_per_minute': f"He scores {formatted_val} points per minute — {'highly efficient scoring that lifts the offensive projection' if shap_val > 0 else 'lower per-minute scoring that suggests a more limited offensive output'}.",
     }
 
     if feature in templates:
@@ -795,11 +796,10 @@ def predict():
 
     # Build display season string
     season_parts = latest['season'].split('-')
-    start_yr = int(season_parts[0])
-    if start_yr < 50:
-        start_yr += 2000
+    if len(season_parts[0]) == 2:
+        start_yr = 2000 + int(season_parts[0]) if int(season_parts[0]) < 50 else 1900 + int(season_parts[0])
     else:
-        start_yr += 1900
+        start_yr = int(season_parts[0])
     display_season = f"{start_yr}-{start_yr + 1}"
 
     # Check for missing features
@@ -918,13 +918,23 @@ def evaluate_trade():
     traded_from_a = roster_a[roster_a['normalized_name'].isin(sent_a_norm)]
     traded_from_b = roster_b[roster_b['normalized_name'].isin(sent_b_norm)]
 
-    # 1b. Financial Impact
-    salary_out_a = float(traded_from_a['salary'].sum())
-    salary_in_a = float(traded_from_b['salary'].sum())
+    # 1b. Financial Impact (Robust calculation)
+    def calculate_sum_safely(df, col):
+        if df.empty or col not in df.columns:
+            return 0.0
+        return float(df[col].sum())
+
+    def calculate_mean_safely(df, col):
+        if df.empty or col not in df.columns:
+            return 0.0
+        return float(df[col].mean())
+
+    salary_out_a = calculate_sum_safely(traded_from_a, 'salary')
+    salary_in_a = calculate_sum_safely(traded_from_b, 'salary')
     salary_delta_a = salary_in_a - salary_out_a
 
-    tax_risk_out_a = float(traded_from_a['luxury_tax_risk'].mean()) if not traded_from_a.empty else 0.0
-    tax_risk_in_a = float(traded_from_b['luxury_tax_risk'].mean()) if not traded_from_b.empty else 0.0
+    tax_risk_out_a = calculate_mean_safely(traded_from_a, 'luxury_tax_risk')
+    tax_risk_in_a = calculate_mean_safely(traded_from_b, 'luxury_tax_risk')
     tax_risk_ch_a = tax_risk_in_a - tax_risk_out_a
 
     # New rosters
@@ -1106,8 +1116,6 @@ def get_team_roster(team_code):
         "players": players,
         "roster_health": health
     })
-
-
 # ============================================================================
 # Startup Banner
 # ============================================================================
@@ -1127,4 +1135,5 @@ if __name__ == '__main__':
     print("Press Ctrl+C to stop")
     print("="*80 + "\n")
 
-    app.run(host='127.0.0.1', port=FLASK_PORT, debug=True)
+    debug_mode = os.getenv('FLASK_DEBUG', 'True').lower() == 'true'
+    app.run(host='127.0.0.1', port=FLASK_PORT, debug=debug_mode)

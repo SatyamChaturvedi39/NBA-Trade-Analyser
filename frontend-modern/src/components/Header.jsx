@@ -45,11 +45,6 @@ const Header = ({ onPageChange, currentPage }) => {
             </nav>
 
             <div className="flex items-center gap-4">
-                <div className="hidden sm:flex items-center gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-slate-800/50 rounded-full border border-slate-700">
-                    <div className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)] animate-pulse"></div>
-                    <span className="text-[10px] md:text-xs font-semibold text-slate-300 whitespace-nowrap">Models Online</span>
-                </div>
-
                 {/* Mobile Menu Toggle */}
                 <button
                     className="lg:hidden p-2 text-slate-300 hover:text-white"
