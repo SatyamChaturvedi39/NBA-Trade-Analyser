@@ -30,7 +30,7 @@
 
 ## What is NBA Trade Analyzer?
 
-NBA Trade Analyzer is a full-stack intelligent web application that **predicts how NBA players will perform after a trade** — not just how they performed last season. It combines machine learning, injury analytics, salary cap rules, and Monte Carlo simulations to produce a single, definitive **Trade Score (0–100)** that tells you whether a deal helps or hurts your team.
+NBA Trade Analyzer is a full-stack intelligent web application that **predicts how NBA players will perform after a trade** - not just how they performed last season. It combines machine learning, injury analytics, salary cap rules, and Monte Carlo simulations to produce a single, definitive **Trade Score (0–100)** that tells you whether a deal helps or hurts your team.
 
 Every prediction comes with a **plain-English explanation** powered by Explainable AI, so you always know *why* the system made its judgment.
 
@@ -44,7 +44,7 @@ Follow these steps to perform your first AI-backed trade analysis:
 2. **Select Players:** Once the rosters load, click on players to add them to the trade block. The system handles "Outgoing" and "Incoming" logic automatically.
 3. **Analyze:** Hit the **"Analyze Trade"** button. The system will run 1,000 Monte Carlo simulations in the background.
 4. **Review the Results:**
-   - **Trade Score:** Check the 0–100 gauge to see if the trade is beneficial.
+   - **Trade Score:** Check the 0-100 gauge to see if the trade is beneficial.
    - **Win Delta:** See how many extra wins (or losses) the model projects for each team.
    - **"Why this prediction?":** Click on any traded player to see the SHAP-powered plain-English explanations of their forecast.
    - **Fit & Health:** Review the roster depth and injury risk warnings at the bottom of the analysis.
@@ -57,7 +57,7 @@ You select two NBA teams. You pick the players each team is sending out. You hit
 
 1. **Predicts next-season performance** for every player involved using 5 years of historical patterns.
 2. **Classifies injury risk** by analyzing each player's medical history and games missed.
-3. **Checks roster fit** — detects positional logjams and scoring cannibalization that would limit production.
+3. **Checks roster fit** - detects positional logjams and scoring cannibalization that would limit production.
 4. **Simulates 500 possible seasons** using Monte Carlo methods to project total team wins before and after the trade.
 5. **Validates salary cap compliance** to ensure the trade is financially feasible under NBA CBA rules.
 6. **Calculates a final Trade Score** with a full breakdown of what's driving the number up or down.
@@ -66,15 +66,15 @@ You select two NBA teams. You pick the players each team is sending out. You hit
 
 ## Features
 
-- **Multi-Stat Forecasting** — Simultaneously predicts Points, Rebounds, Assists, Minutes, and True Shooting % for the upcoming season.
-- **Explainable AI** — Every prediction includes human-readable SHAP explanations. No black boxes.
-- **Injury Intelligence** — Medical risk grades from Low to Very High, factored directly into win projections.
-- **Monte Carlo Win Simulator** — 500-iteration probabilistic engine projecting how many games a team wins post-trade.
-- **Salary Cap Engine** — Financial feasibility checks against NBA salary matching rules.
-- **Fit Penalty System** — Automatically penalizes trades that create positional overlap or scoring redundancy.
-- **Confidence Intervals** — Every stat prediction includes upper/lower bounds based on model accuracy margins.
-- **Fully Responsive UI** — Premium dark-mode Glassmorphism interface that works on desktop, tablet, and mobile.
-- **Cinematic Intro** — Gate-opening animation with basketball iconography on every page load.
+- **Multi-Stat Forecasting** - Simultaneously predicts Points, Rebounds, Assists, Minutes, and True Shooting % for the upcoming season.
+- **Explainable AI** - Every prediction includes human-readable SHAP explanations. No black boxes.
+- **Injury Intelligence** - Medical risk grades from Low to Very High, factored directly into win projections.
+- **Monte Carlo Win Simulator** - 500-iteration probabilistic engine projecting how many games a team wins post-trade.
+- **Salary Cap Engine** - Financial feasibility checks against NBA salary matching rules.
+- **Fit Penalty System** - Automatically penalizes trades that create positional overlap or scoring redundancy.
+- **Confidence Intervals** - Every stat prediction includes upper/lower bounds based on model accuracy margins.
+- **Fully Responsive UI** - Premium dark-mode Glassmorphism interface that works on desktop, tablet, and mobile.
+- **Cinematic Intro** - Gate-opening animation with basketball iconography on every page load.
 
 ---
 
@@ -82,9 +82,9 @@ You select two NBA teams. You pick the players each team is sending out. You hit
 
 The system runs **three distinct machine learning models** working in concert, plus a rule-based simulation engine.
 
-### 1. Player Performance Model — XGBoost MultiOutput Regressor
+### 1. Player Performance Model - XGBoost MultiOutput Regressor
 
-The core prediction engine. It does not simply look at last season's averages — it processes **54 engineered temporal features** across a 5-year rolling window per player.
+The core prediction engine. It does not simply look at last season's averages - it processes **manually engineered temporal features** across a 5-year rolling window per player.
 
 **Feature Categories:**
 
@@ -92,7 +92,7 @@ The core prediction engine. It does not simply look at last season's averages �
 | :--- | :---: | :--- |
 | Base Statistics | 16 | Current season metrics: PPG, RPG, APG, TS%, usage rate, points per minute, etc. |
 | Lag Features | 26 | Historical stats going back 1–5 seasons (e.g., PPG from 3 years ago vs today) |
-| Trend Slopes | 4 | Mathematical trajectory — is the player improving or declining year-over-year? |
+| Trend Slopes | 4 | Mathematical trajectory - is the player improving or declining year-over-year? |
 | Career Architecture | 8 | Peak PPG, years since peak, career consistency (coefficient of variation), career averages |
 
 **Targets Predicted:**
@@ -116,9 +116,9 @@ The core prediction engine. It does not simply look at last season's averages �
 
 **Hyperparameters:** `n_estimators=200`, `max_depth=5`, `learning_rate=0.05`, `min_child_weight=5`
 
-### 2. Injury Risk Classifier — Random Forest
+### 2. Injury Risk Classifier - Random Forest
 
-Evaluates 5 years of player medical history — total games missed, severity classifications (minor/moderate/severe), and frequency patterns — to assign a probabilistic injury risk rating.
+Evaluates 5 years of player medical history — total games missed, severity classifications (minor/moderate/severe), and frequency patterns - to assign a probabilistic injury risk rating.
 
 | Risk Category | Probability Range | Impact on Trade Score |
 | :--- | :---: | :--- |
@@ -127,9 +127,9 @@ Evaluates 5 years of player medical history — total games missed, severity cla
 | High | 35–60% | Significant penalty; flagged in UI |
 | Very High | > 60% | Severe reduction; trade likely rated "Harmful" |
 
-**Validation:** ROC-AUC of 0.575 against held-out 2024–25 injury data. Reflective of the inherent randomness of sports injuries — the model identifies patterns where they exist without overfitting to noise.
+**Validation:** ROC-AUC of 0.575 against held-out 2024–25 injury data. Reflective of the inherent randomness of sports injuries - the model identifies patterns where they exist without overfitting to noise.
 
-### 3. SHAP Explainability Engine — TreeExplainer
+### 3. SHAP Explainability Engine - TreeExplainer
 
 Every single prediction is run through a SHAP TreeExplainer that decomposes the XGBoost output into individual feature contributions. These raw SHAP values are then translated into natural-language sentences displayed directly in the UI.
 
