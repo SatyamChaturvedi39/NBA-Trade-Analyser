@@ -28,6 +28,14 @@
 
 ---
 
+## What is NBA Trade Analyzer?
+
+NBA Trade Analyzer is a full-stack intelligent web application that **predicts how NBA players will perform after a trade** — not just how they performed last season. It combines machine learning, injury analytics, salary cap rules, and Monte Carlo simulations to produce a single, definitive **Trade Score (0–100)** that tells you whether a deal helps or hurts your team.
+
+Every prediction comes with a **plain-English explanation** powered by Explainable AI, so you always know *why* the system made its judgment.
+
+---
+
 ## 📖 How to Use the Website
 
 Follow these steps to perform your first AI-backed trade analysis:
@@ -40,14 +48,6 @@ Follow these steps to perform your first AI-backed trade analysis:
    - **Win Delta:** See how many extra wins (or losses) the model projects for each team.
    - **"Why this prediction?":** Click on any traded player to see the SHAP-powered plain-English explanations of their forecast.
    - **Fit & Health:** Review the roster depth and injury risk warnings at the bottom of the analysis.
-
----
-
-## What is NBA Trade Analyzer?
-
-NBA Trade Analyzer is a full-stack intelligent web application that **predicts how NBA players will perform after a trade** — not just how they performed last season. It combines machine learning, injury analytics, salary cap rules, and Monte Carlo simulations to produce a single, definitive **Trade Score (0–100)** that tells you whether a deal helps or hurts your team.
-
-Every prediction comes with a **plain-English explanation** powered by Explainable AI, so you always know *why* the system made its judgment.
 
 ---
 
