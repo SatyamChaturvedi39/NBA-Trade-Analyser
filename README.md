@@ -184,18 +184,6 @@ All model outputs are synthesized into a single **0–100 Trade Score** via a we
 
 ---
 
-## API Reference
-
-| Method | Endpoint | Description |
-| :---: | :--- | :--- |
-| `GET` | `/api/health` | Returns system health, model load status, and player count |
-| `GET` | `/api/teams` | Returns all 30 NBA franchise codes and names |
-| `GET` | `/api/players?team={code}` | Returns the active roster for a given team abbreviation |
-| `POST` | `/api/predict` | Returns predicted stats, confidence ranges, and SHAP explanations for a single player |
-| `POST` | `/api/trade/evaluate` | Full trade evaluation — stats, injury risk, Monte Carlo wins, fit penalties, and Trade Score |
-| `GET` | `/api/model/info` | Returns model metadata including feature list, target names, and per-target accuracy metrics |
-
----
 
 ## License
 
